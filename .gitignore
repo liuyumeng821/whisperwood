@@ -1,0 +1,21 @@
+
+# Local configuration and generated data
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+local.properties
+*.db
+*.db-*
+*.sqlite*
+*.keystore
+*.jks
+
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+data/

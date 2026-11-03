@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>WhisperWood — 低语森林</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#0a1513",
+                        "surface-container": "#17221f",
+                        "surface-container-high": "#212c29",
+                        "surface-container-lowest": "#06100d",
+                        "outline-variant": "#3e494a",
+                        "primary": "#8ee5f0",
+                        "primary-fixed": "#99f0fc",
+                        "on-surface": "#d9e5e0",
+                        "on-surface-variant": "#bdc9ca",
+                        "secondary": "#ffb3b5",
+                        "secondary-container": "#8f182d",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "tertiary": "#dbd8ce",
+                        "tertiary-fixed": "#e6e2d8",
+                        "background": "#0a1513",
+                    },
+                    fontFamily: {
+                        "display": ["Bodoni Moda", "serif"],
+                        "body": ["Literata", "serif"],
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "52px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "38px", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "28px", fontWeight: "500" }],
+                        "title-lg": ["20px", { lineHeight: "26px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "700" }],
+                    },
+                    spacing: { "safe-margin": "32px" },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-on-surface m-0 p-0 flex justify-center items-center h-screen overflow-hidden select-none paper-grain">
+
+    <video id="webcam" class="hidden" playsinline autoplay muted></video>
+
+    <!-- SVG Filters -->
+    <svg style="display:none;">
+        <defs>
+            <filter id="crumble"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="4" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G"/></filter>
+        </defs>
+    </svg>
+
+    <div class="app-container relative">
+        <div id="particles-container" class="absolute inset-0 pointer-events-none z-0"></div>
+
+        <!-- ==================== PAGE: Landing ==================== -->
+        <div id="page-landing" class="page active">
+            <!-- Dark Lord background -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDk5locrZiKzHBo5JoLV0fJ2ZnRZn1nqVbCFmGqeGAqn_wr902tsV6CkuZ9Rt-Ny3tXP7k1e2ukND4zYVJU5JMR1ghP_fISHj760ZvqazdnLULqD7eTwwaQVPEzcTJ8oxPoOkkekhCkTBkKQKQjzotH-jxrF4KnBuJN5Q81IfUU-kRtgXwnOl0OkV83DRGb_W9xsdMUSXNEsvervOg8SLwrykhfmc0oTegNFAU1kfPa3-t7iq0yfNDCf0vj55_gQCJ_ZxE9y0riT_8');"></div>
+            <div class="absolute inset-0 vignette pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent"></div>
+
+            <div class="relative flex flex-col items-center justify-end h-full px-safe-margin pb-safe-margin text-center z-10">
+                <!-- Wizard character -->
+                <div class="w-36 h-36 mb-4 drop-shadow-[0_0_15px_rgba(142,229,240,0.3)]">
+                    <img alt="小巫师" class="w-full h-full object-contain mix-blend-screen opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc-DOXxaH43Bdz5v-6PqhTDGrJ4slCGUzTLaiGyqfIZQFBH-QAkmYHrX0fYWltbBgRnvMFuIpNuSn_FU6vMgtKq5diWjo3GsAd3rb2uU_g3RDNupd8INsnSchZtU6kF4gLs7X0InjIN_tKtXw2Jhto5ziowjmr6BTK8NiakxQQ3pRn_n3apKwbCDQiWseD4FAwOCijJD0aRABWdZPyI-OmgWA6EiKenylTko9k3AGJaJuU-RNHTOQP1vXbpF6LODeTOzBwqK6fyTU"/>
+                </div>
+
+                <h1 class="font-display text-display-lg tracking-tight mb-1 text-on-surface soul-flame">
+                    WhisperWood
+                </h1>
+                <p class="font-body text-label-caps text-on-surface-variant/50 uppercase tracking-[0.25em] mb-4">低 语 森 林</p>
+                <p class="font-body text-body-sm text-tertiary/60 mb-10 max-w-[280px] leading-relaxed italic">
+                    "迷雾深处，枯枝编织成笼。<br>那低语声并非风——是祂在等你犯错。"
+                </p>
+
+                <button id="btn-enter-forest" class="gothic-btn primary group">
+                    <span class="gothic-btn-glow"></span>
+                    <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.15em]">踏入荆棘</span>
+                    <span class="gothic-btn-corner tl"></span>
+                    <span class="gothic-btn-corner tr"></span>
+                    <span class="gothic-btn-corner bl"></span>
+                    <span class="gothic-btn-corner br"></span>
+                </button>
+
+                <p class="font-body text-[10px] text-on-surface-variant/30 mt-6 tracking-wider">⸸ 需要摄像头权限 ⸸</p>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE: Camera ==================== -->
+        <div id="page-camera" class="page">
+            <div class="absolute inset-0 vignette pointer-events-none z-0"></div>
+            <div class="relative flex flex-col items-center justify-center h-full px-safe-margin text-center z-10">
+                <div id="camera-hand-icon" class="mb-6">
+                    <div class="w-20 h-20 rounded-full border border-primary/20 flex items-center justify-center rune-pulse">
+                        <!-- Skull with candle -->
+                        <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+                            <ellipse cx="25" cy="28" rx="14" ry="12" stroke="#8ee5f0" stroke-width="1.5" opacity="0.7"/>
+                            <circle cx="20" cy="26" r="3" fill="#8ee5f0" opacity="0.6"/>
+                            <circle cx="30" cy="26" r="3" fill="#8ee5f0" opacity="0.6"/>
+                            <path d="M22 34 L25 36 L28 34" stroke="#8ee5f0" stroke-width="1" opacity="0.5"/>
+                            <path d="M25 16 L25 10" stroke="#ffb3b5" stroke-width="1.5" stroke-linecap="round"/>
+                            <ellipse cx="25" cy="8" rx="2" ry="3" fill="#ffb3b5" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="relative w-52 h-40 rounded-lg overflow-hidden border border-outline-variant/30 mb-6 bg-surface-container-lowest">
+                    <video id="camera-preview" class="w-full h-full object-cover opacity-0 transition-opacity duration-1000" playsinline autoplay muted></video>
+                    <div class="absolute inset-0 border border-primary/15 rounded-lg pointer-events-none"></div>
+                </div>
+                <h2 class="font-display text-headline-md mb-2 text-on-surface">献出你的目光</h2>
+                <p class="font-body text-body-sm text-on-surface-variant/50 mb-8 max-w-[260px] leading-relaxed italic">
+                    "森林需要看见你的手。<br>别担心——祂只是在……观察。"
+                </p>
+                <button id="btn-allow-camera" class="gothic-btn primary">
+                    <span class="gothic-btn-glow"></span>
+                    <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.15em]">允许窥视</span>
+                    <span class="gothic-btn-corner tl"></span>
+                    <span class="gothic-btn-corner tr"></span>
+                    <span class="gothic-btn-corner bl"></span>
+                    <span class="gothic-btn-corner br"></span>
+                </button>
+            </div>
+        </div>
+
+
+        <!-- ==================== PAGE: Level Select ==================== -->
+        <div id="page-level-select" class="page">
+            <div class="absolute inset-0 vignette pointer-events-none z-0"></div>
+            <div class="relative flex flex-col items-center justify-center h-full px-safe-margin text-center z-10">
+                <!-- Witch hat decoration -->
+                <div class="mb-4 opacity-60">
+                    <svg width="48" height="48" viewBox="0 0 80 80" fill="none">
+                        <path d="M25 50 L40 10 L55 50" stroke="#8ee5f0" stroke-width="1.5" opacity="0.7" fill="rgba(142,229,240,0.1)"/>
+                        <path d="M20 50 Q40 45 60 50" stroke="#8ee5f0" stroke-width="1.5" opacity="0.6"/>
+                    </svg>
+                </div>
+                <p class="font-body text-label-caps text-on-surface-variant/40 uppercase tracking-[0.25em] mb-4">选择诅咒之书</p>
+
+                <select id="level-selector" class="w-56 mb-4 px-4 py-2 bg-surface-container border border-primary/30 rounded text-on-surface font-body text-body-lg cursor-pointer hover:border-primary/50 focus:outline-none focus:border-primary/70">
+                    <option value="1">第1关 · 迷雾初现</option>
+                    <option value="2">第2关 · 镜像迷途</option>
+                    <option value="3">第3关 · 残响追踪</option>
+                    <option value="4">第4关 · 衰减领域</option>
+                    <option value="5" class="text-secondary">Boss · 全境压制</option>
+                </select>
+
+                <!-- Level info card -->
+                <div class="w-60 mb-6 p-4 border border-outline-variant/30 rounded bg-surface-container-lowest/60 backdrop-blur-sm">
+                    <h3 id="level-name" class="font-display text-headline-md text-on-surface mb-1">第1关 · 迷雾初现</h3>
+                    <p id="level-tagline" class="font-body text-body-sm text-on-surface-variant/40 italic mb-3">Boss的眼睛是迷雾之源</p>
+                    <div class="grid grid-cols-2 gap-2 text-left text-xs">
+                        <div><span class="text-on-surface-variant/30">🎯 目标分</span><br><span id="level-target" class="text-primary font-mono">200</span></div>
+                        <div><span class="text-on-surface-variant/30">⏱️ 限时</span><br><span id="level-time" class="text-primary font-mono">65s</span></div>
+                        <div><span class="text-on-surface-variant/30">👁️ 安全</span><br><span id="level-safe" class="text-on-surface-variant/60 font-mono">5.0s</span></div>
+                        <div><span class="text-on-surface-variant/30">😈 凝视</span><br><span id="level-watch" class="text-secondary/60 font-mono">2.0s</span></div>
+                    </div>
+                    <div class="mt-2 text-left">
+                        <span class="text-on-surface-variant/30 text-[10px]">每施法加</span>
+                        <span id="level-score" class="text-primary font-mono text-[10px]">30</span>
+                        <span class="text-on-surface-variant/30 text-[10px]">分</span>
+                    </div>
+                    <div class="mt-1 text-left">
+                        <span id="level-mechanics" class="text-secondary/50 text-[10px]">基础跟做</span>
+                    </div>
+                </div>
+
+                <button id="btn-start-level" class="gothic-btn primary">
+                    <span class="gothic-btn-glow"></span>
+                    <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.15em]">踏入诅咒</span>
+                    <span class="gothic-btn-corner tl"></span>
+                    <span class="gothic-btn-corner tr"></span>
+                    <span class="gothic-btn-corner bl"></span>
+                    <span class="gothic-btn-corner br"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE: Countdown ==================== -->
+        <div id="page-countdown" class="page">
+            <!-- Dark Lord bg -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDk5locrZiKzHBo5JoLV0fJ2ZnRZn1nqVbCFmGqeGAqn_wr902tsV6CkuZ9Rt-Ny3tXP7k1e2ukND4zYVJU5JMR1ghP_fISHj760ZvqazdnLULqD7eTwwaQVPEzcTJ8oxPoOkkekhCkTBkKQKQjzotH-jxrF4KnBuJN5Q81IfUU-kRtgXwnOl0OkV83DRGb_W9xsdMUSXNEsvervOg8SLwrykhfmc0oTegNFAU1kfPa3-t7iq0yfNDCf0vj55_gQCJ_ZxE9y0riT_8');"></div>
+            <div class="absolute inset-0 vignette pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-background/80 to-transparent"></div>
+            <div class="relative flex flex-col items-center justify-center h-full z-10">
+                <p class="font-body text-label-caps text-secondary/50 uppercase tracking-[0.25em] mb-4">祂正在苏醒</p>
+                <div id="countdown-number" class="font-display text-[120px] leading-none text-primary soul-flame ash-dissolve">3</div>
+                <p class="font-body text-body-sm text-tertiary/40 mt-6 italic">"别让我失望。"</p>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE: Battle ==================== -->
+        <div id="page-battle" class="page" style="perspective:1200px;perspective-origin:center center;">
+            <div id="battle-main" class="relative flex flex-col h-full" style="transform-style:preserve-3d;">
+                <!-- Blind fog overlay (cheap, no GPU blur) -->
+                <div class="blind-fog"></div>
+                <!-- Demon Eye open overlay -->
+                <div id="demon-eye-overlay">
+                    <img id="demon-eye-img" src="./demon_eye.webp" alt="恶魔之眼">
+                </div>
+                <!-- === Gothic Forest Background === -->
+                <div class="absolute inset-0 bg-cover bg-center pointer-events-none z-0 opacity-25" style="background-image: url('./游戏过程背景图.png');"></div>
+                <!-- === 3D depth background mist overlay === -->
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,21,19,0.3)_0%,rgba(5,10,8,0.7)_40%,rgba(2,4,3,0.95)_85%)] pointer-events-none z-0 battle-3d-deep"></div>
+                <div class="absolute inset-0 vignette pointer-events-none z-0"></div>
+                <div id="hit-flash" class="absolute inset-0 pointer-events-none z-50 opacity-0"></div>
+                <div id="combo-flash" class="absolute inset-0 pointer-events-none z-50 opacity-0 combo-flash-gradient"></div>
+                <canvas id="motion-trail-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-40 battle-3d-front"></canvas>
+                <canvas id="rune-circle-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-[3] opacity-20 battle-3d-mid"></canvas>
+
+                <!-- ===== SUCCESS FX: Magic Seal ===== -->
+                <div id="fx-success" class="absolute inset-0 pointer-events-none z-[60] flex items-center justify-center opacity-0 invisible">
+                    <div class="fx-seal-ring"></div>
+                    <div class="fx-seal-ring delay-1"></div>
+                    <div class="fx-seal-center">
+                        <svg class="fx-seal-svg" viewBox="0 0 200 200" width="150" height="150" fill="none">
+                            <circle cx="100" cy="100" r="88" stroke="#8ee5f0" stroke-width="1.2" opacity="0.5" stroke-dasharray="6 4"/>
+                            <circle cx="100" cy="100" r="68" stroke="#8ee5f0" stroke-width="1.8" opacity="0.7"/>
+                            <polygon points="100,25 140,62 140,138 100,175 60,138 60,62" stroke="#8ee5f0" stroke-width="1.2" opacity="0.4"/>
+                            <line x1="100" y1="15" x2="100" y2="185" stroke="#8ee5f0" stroke-width="0.6" opacity="0.25"/>
+                            <line x1="15" y1="100" x2="185" y2="100" stroke="#8ee5f0" stroke-width="0.6" opacity="0.25"/>
+                            <circle cx="100" cy="100" r="20" stroke="#99f0fc" stroke-width="2.5" opacity="0.9"/>
+                            <circle cx="100" cy="100" r="7" fill="#8ee5f0" opacity="0.8"/>
+                            <!-- Rune marks at cardinal points -->
+                            <text x="100" y="52" text-anchor="middle" fill="#8ee5f0" font-size="13" opacity="0.6">☽</text>
+                            <text x="148" y="105" text-anchor="middle" fill="#8ee5f0" font-size="13" opacity="0.6">⚶</text>
+                            <text x="100" y="158" text-anchor="middle" fill="#8ee5f0" font-size="13" opacity="0.6">✦</text>
+                            <text x="52" y="105" text-anchor="middle" fill="#8ee5f0" font-size="13" opacity="0.6">◈</text>
+                        </svg>
+                    </div>
+                    <div class="fx-seal-text font-display text-primary soul-flame">咒术生效</div>
+                </div>
+
+                <!-- ===== FAILURE FX: Demon Gaze ===== -->
+                <div id="fx-failure" class="absolute inset-0 pointer-events-none z-[60] flex flex-col items-center justify-center opacity-0 invisible">
+                    <div class="fx-demon-dark"></div>
+                    <!-- Detailed demon/monster SVG -->
+                    <div class="fx-demon-eye relative">
+                        <svg viewBox="0 0 240 160" width="220" height="147" fill="none">
+                            <!-- Twisted branches framing the eye -->
+                            <path d="M20 80 Q30 40 50 50 Q60 30 80 45" stroke="#3e494a" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+                            <path d="M15 90 Q25 110 45 100 Q55 120 70 105" stroke="#3e494a" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+                            <path d="M220 80 Q210 40 190 50 Q180 30 160 45" stroke="#3e494a" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+                            <path d="M225 90 Q215 110 195 100 Q185 120 170 105" stroke="#3e494a" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+                            <!-- Deer antler silhouettes -->
+                            <path d="M85 30 Q90 15 95 5 M85 30 Q80 18 72 12 M85 30 Q88 20 82 8" stroke="#ffb3b5" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
+                            <path d="M155 30 Q150 15 145 5 M155 30 Q160 18 168 12 M155 30 Q152 20 158 8" stroke="#ffb3b5" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
+                            <!-- The Eye -->
+                            <path d="M50 80 Q80 35 120 35 Q160 35 190 80 Q160 125 120 125 Q80 125 50 80Z" stroke="#ffb3b5" stroke-width="2" fill="rgba(147,0,10,0.12)" class="fx-demon-eye-shape"/>
+                            <ellipse cx="120" cy="80" rx="32" ry="38" fill="rgba(60,0,0,0.3)" stroke="#ffb3b5" stroke-width="1.2" opacity="0.6"/>
+                            <!-- Vertical slit pupil -->
+                            <ellipse cx="120" cy="80" rx="9" ry="34" fill="#ffb3b5" opacity="0.85" class="fx-demon-pupil"/>
+                            <ellipse cx="120" cy="80" rx="4" ry="28" fill="#ff4444" opacity="0.6"/>
+                            <!-- Blood veins -->
+                            <path d="M60 75 Q75 60 95 77" stroke="#ffb3b5" stroke-width="0.7" opacity="0.35"/>
+                            <path d="M65 88 Q80 98 98 83" stroke="#ffb3b5" stroke-width="0.5" opacity="0.25"/>
+                            <path d="M180 75 Q165 60 145 77" stroke="#ffb3b5" stroke-width="0.7" opacity="0.35"/>
+                            <path d="M175 88 Q160 98 142 83" stroke="#ffb3b5" stroke-width="0.5" opacity="0.25"/>
+                            <!-- Small skulls decoration -->
+                            <circle cx="45" cy="130" r="6" stroke="#3e494a" stroke-width="1" opacity="0.3"/>
+                            <circle cx="42" cy="128" r="1.5" fill="#3e494a" opacity="0.3"/>
+                            <circle cx="48" cy="128" r="1.5" fill="#3e494a" opacity="0.3"/>
+                            <circle cx="195" cy="130" r="6" stroke="#3e494a" stroke-width="1" opacity="0.3"/>
+                            <circle cx="192" cy="128" r="1.5" fill="#3e494a" opacity="0.3"/>
+                            <circle cx="198" cy="128" r="1.5" fill="#3e494a" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <div class="fx-demon-text font-display text-secondary soul-flame-red">"你的灵魂在颤抖。"</div>
+                </div>
+
+                <!-- ===== DEMON GAZE: Freeze mechanic ===== -->
+                <div id="fx-demon-gaze" class="absolute inset-0 pointer-events-none z-[55] flex flex-col items-center justify-center opacity-0 invisible" style="transform-style:preserve-3d;">
+                    <!-- Darkness layers (progressive closing in) -->
+                    <div class="absolute inset-0 bg-gradient-radial-gaze"></div>
+                    <div class="absolute inset-0 gaze-vignette-pulse"></div>
+                    <!-- Claustrophobic vignette that closes in over time -->
+                    <div class="absolute inset-0 gaze-dark-close"></div>
+
+                    <!-- THE REAL DEMON EYE — crimson vertical-slit pupil -->
+                    <div class="fx-gaze-eyes relative">
+                        <svg class="fx-demon-eye-svg" viewBox="0 0 300 170" fill="none">
+                            <defs>
+                                <!-- Outer crimson glow filter -->
+                                <filter id="demon-eye-glow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="glow1"/>
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="glow2"/>
+                                    <feMerge>
+                                        <feMergeNode in="glow2"/>
+                                        <feMergeNode in="glow1"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                                <!-- Inner eye blur for depth -->
+                                <filter id="demon-eye-inner">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+                                </filter>
+                                <!-- Iris radial gradient -->
+                                <radialGradient id="iris-grad" cx="50%" cy="45%" r="50%" fx="48%" fy="42%">
+                                    <stop offset="0%" stop-color="#1a0000"/>
+                                    <stop offset="18%" stop-color="#2d0000"/>
+                                    <stop offset="35%" stop-color="#5c1018"/>
+                                    <stop offset="55%" stop-color="#8B1A1A"/>
+                                    <stop offset="72%" stop-color="#A92D3E"/>
+                                    <stop offset="85%" stop-color="#6B1D2A"/>
+                                    <stop offset="95%" stop-color="#2a0505"/>
+                                    <stop offset="100%" stop-color="#0d0000"/>
+                                </radialGradient>
+                                <!-- Pupil vertical slit gradient -->
+                                <radialGradient id="pupil-grad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#000000"/>
+                                    <stop offset="60%" stop-color="#0a0000"/>
+                                    <stop offset="100%" stop-color="#1a0000"/>
+                                </radialGradient>
+                                <!-- Sclera deep red tint -->
+                                <radialGradient id="sclera-grad" cx="50%" cy="50%" r="55%">
+                                    <stop offset="0%" stop-color="#1a0202"/>
+                                    <stop offset="60%" stop-color="#0d0101"/>
+                                    <stop offset="100%" stop-color="#050000"/>
+                                </radialGradient>
+                            </defs>
+
+                            <!-- === Eye Socket Shadow === -->
+                            <ellipse cx="150" cy="85" rx="130" ry="72" fill="rgba(0,0,0,0.55)" filter="url(#demon-eye-inner)"/>
+
+                            <!-- === Sclera (dark red-tinged white) === -->
+                            <ellipse cx="150" cy="85" rx="112" ry="58" fill="url(#sclera-grad)" stroke="#2a0808" stroke-width="1.5"/>
+
+                            <!-- === Blood Vessels in sclera === -->
+                            <g opacity="0.5" stroke="#8B1A1A" stroke-width="0.5" fill="none">
+                                <path d="M55 72 Q72 66 90 60 Q108 55 120 60"/>
+                                <path d="M245 72 Q228 66 210 60 Q192 55 180 60"/>
+                                <path d="M50 90 Q70 78 88 72" stroke-width="0.7"/>
+                                <path d="M250 90 Q230 78 212 72" stroke-width="0.7"/>
+                                <path d="M65 55 Q80 45 100 42" stroke-width="0.4"/>
+                                <path d="M235 55 Q220 45 200 42" stroke-width="0.4"/>
+                                <path d="M60 105 Q80 115 100 120" stroke-width="0.45"/>
+                                <path d="M240 105 Q220 115 200 120" stroke-width="0.45"/>
+                                <path d="M55 82 Q65 78 70 80" stroke-width="0.35"/>
+                                <path d="M245 82 Q235 78 230 80" stroke-width="0.35"/>
+                                <path d="M120 55 Q135 48 150 46" stroke-width="0.4"/>
+                                <path d="M180 55 Q165 48 150 46" stroke-width="0.4"/>
+                            </g>
+
+                            <!-- === IRIS === -->
+                            <ellipse cx="150" cy="85" rx="78" ry="56" fill="url(#iris-grad)" filter="url(#demon-eye-glow)"/>
+
+                            <!-- Iris fibrous texture rings -->
+                            <ellipse cx="150" cy="85" rx="68" ry="48" stroke="rgba(169,45,62,0.25)" stroke-width="0.6" fill="none"/>
+                            <ellipse cx="150" cy="85" rx="52" ry="36" stroke="rgba(200,60,70,0.2)" stroke-width="0.5" fill="none"/>
+                            <ellipse cx="150" cy="85" rx="36" ry="24" stroke="rgba(220,80,80,0.18)" stroke-width="0.4" fill="none"/>
+
+                            <!-- Iris radial fibers -->
+                            <g opacity="0.18" stroke="#A92D3E" stroke-width="0.4">
+                                <line x1="150" y1="29" x2="150" y2="141"/>
+                                <line x1="72" y1="85" x2="228" y2="85"/>
+                                <line x1="95" y1="46" x2="205" y2="124"/>
+                                <line x1="205" y1="46" x2="95" y2="124"/>
+                                <line x1="85" y1="64" x2="215" y2="106"/>
+                                <line x1="215" y1="64" x2="85" y2="106"/>
+                                <line x1="110" y1="37" x2="190" y2="133"/>
+                                <line x1="190" y1="37" x2="110" y2="133"/>
+                            </g>
+
+                            <!-- === VERTICAL SLIT PUPIL === -->
+                            <ellipse cx="150" cy="85" rx="11" ry="42" fill="url(#pupil-grad)" class="demon-pupil-gaze"/>
+                            <!-- Pupil core (absolute black) -->
+                            <ellipse cx="150" cy="85" rx="5.5" ry="28" fill="#000000" class="demon-pupil-core"/>
+
+                            <!-- === Specular Highlights (wetness) === -->
+                            <ellipse cx="124" cy="58" rx="12" ry="6" fill="rgba(255,255,255,0.12)" transform="rotate(-15, 124, 58)"/>
+                            <ellipse cx="118" cy="55" rx="5" ry="2.5" fill="rgba(255,255,255,0.2)" transform="rotate(-15, 118, 55)"/>
+                            <!-- Secondary highlight bottom -->
+                            <ellipse cx="172" cy="118" rx="7" ry="3" fill="rgba(255,200,200,0.08)" transform="rotate(-10, 172, 118)"/>
+
+                            <!-- === Eyelid Rim Shadow (deep socket) === -->
+                            <path d="M30 85 Q30 20 150 18 Q270 20 270 85" stroke="rgba(0,0,0,0.5)" stroke-width="4" fill="none"/>
+                            <path d="M30 85 Q30 152 150 155 Q270 152 270 85" stroke="rgba(0,0,0,0.5)" stroke-width="4" fill="none"/>
+
+                            <!-- === Crimson edge glow on eye outline === -->
+                            <ellipse cx="150" cy="85" rx="115" ry="60" stroke="#A92D3E" stroke-width="2" fill="none" opacity="0.7" filter="url(#demon-eye-glow)"/>
+                        </svg>
+                    </div>
+
+                    <!-- Eyelid close mechanism -->
+                    <div class="fx-gaze-lids">
+                        <div class="fx-gaze-upper-lid lid-left"></div>
+                        <div class="fx-gaze-upper-lid lid-right"></div>
+                    </div>
+
+                    <!-- Tension indicator: heartbeat bar -->
+                    <div class="gaze-tension-container">
+                        <div class="gaze-tension-bar"></div>
+                        <span class="gaze-tension-label font-body text-[10px]">心跳</span>
+                    </div>
+
+                    <p class="font-display text-headline-md gaze-warning-text mt-4 tracking-widest">不 要 动</p>
+                    <p class="font-body text-[11px] text-on-surface-variant/15 mt-1 italic tracking-wider">祂 正 在 看 着 你</p>
+                </div>
+
+                <!-- ===== MIRROR CURSE indicator ===== -->
+                <div id="fx-mirror-curse" class="absolute top-[70px] left-1/2 -translate-x-1/2 z-[45] opacity-0 invisible pointer-events-none">
+                    <div class="flex items-center gap-2 px-4 py-2 bg-error-container/20 border border-secondary/40 rounded backdrop-blur-sm">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2 L12 22 M2 12 Q7 8 12 12 Q17 16 22 12" stroke="#ffb3b5" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="6" cy="8" r="2" stroke="#ffb3b5" stroke-width="1"/>
+                            <circle cx="18" cy="16" r="2" stroke="#ffb3b5" stroke-width="1"/>
+                        </svg>
+                        <span class="font-display text-body-sm text-secondary tracking-wider">镜像诅咒</span>
+                        <span class="font-body text-[10px] text-secondary/60">做相反的！</span>
+                    </div>
+                </div>
+
+                <!-- Top HUD -->
+                <div class="relative z-10 p-safe-margin pb-0">
+                    <div id="level-indicator" class="font-display text-headline-md text-primary soul-flame mb-2">第1关 · 迷雾初现</div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="font-body text-label-caps text-on-surface-variant/30 uppercase tracking-[0.15em]">
+                            <span id="wave-display">盲目迷雾</span>
+                        </div>
+                        <div id="combo-counter" class="font-display text-headline-md text-primary soul-flame">0</div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <div id="health-roses" class="flex gap-1.5"></div>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider">分数</span>
+                        <div class="flex-1 h-[3px] bg-surface-container-high rounded-full overflow-hidden">
+                            <div id="erosion-bar" class="h-full bg-gradient-to-r from-primary/60 to-primary rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <span id="erosion-percent" class="font-body text-[10px] text-primary/50">0%</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider">剩余</span>
+                        <div class="flex-1 h-[4px] bg-surface-container-high rounded-full overflow-hidden">
+                            <div id="level-timer-bar" class="h-full bg-gradient-to-r from-primary to-primary-fixed rounded-full transition-all duration-1000" style="width: 100%"></div>
+                        </div>
+                        <span id="level-timer-text" class="font-body text-[11px] text-on-surface-variant/40">65s</span>
+                    </div>
+                </div>
+
+                <!-- Camera Mirror -->
+                <div class="absolute top-[120px] right-safe-margin z-30 flex flex-col items-center gap-2">
+                    <div class="camera-mirror">
+                        <video id="battle-camera-feed" class="w-full h-full object-cover rounded-full" playsinline autoplay muted></video>
+                        <div class="camera-mirror-border"></div>
+                        <div class="camera-mirror-glow"></div>
+                    </div>
+                    <!-- Sound toggles -->
+                    <div class="flex flex-col gap-1.5">
+                        <button id="btn-sfx-toggle" class="w-7 h-7 flex items-center justify-center rounded-full border border-primary/20 text-primary/50 hover:border-primary/40 hover:text-primary/80 transition-all duration-200 bg-surface/60 backdrop-blur-sm" title="音效">
+                            <span class="material-symbols-outlined text-sm">volume_up</span>
+                        </button>
+                        <button id="btn-bgm-toggle" class="w-7 h-7 flex items-center justify-center rounded-full border border-primary/20 text-primary/50 hover:border-primary/40 hover:text-primary/80 transition-all duration-200 bg-surface/60 backdrop-blur-sm" title="背景音乐">
+                            <span class="material-symbols-outlined text-sm">music_note</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Center: Gesture Challenge -->
+                <div class="flex-1 flex flex-col items-center justify-center px-safe-margin relative z-10">
+                    <p id="curse-name" class="font-body text-label-caps text-secondary/60 tracking-[0.15em] uppercase mb-3 curse-flicker">荆棘缠绕</p>
+                    <div class="gesture-challenge-ring mb-4">
+                        <div id="battle-gesture-svg" class="flex items-center justify-center h-28 w-28"></div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 id="battle-gesture-name" class="font-display text-headline-md text-on-surface">封印术</h3>
+                        <span id="gesture-type-indicator" class="font-body text-[11px] px-2 py-0.5 rounded border border-primary/30 text-primary/60 bg-primary/5">✋ 静态</span>
+                    </div>
+                    <p id="battle-gesture-hint" class="font-body text-body-sm text-on-surface-variant/40">握紧手掌</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PAGE: Whisper ==================== -->
+        <div id="page-whisper" class="page">
+            <!-- Dark Lord bg faint -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDk5locrZiKzHBo5JoLV0fJ2ZnRZn1nqVbCFmGqeGAqn_wr902tsV6CkuZ9Rt-Ny3tXP7k1e2ukND4zYVJU5JMR1ghP_fISHj760ZvqazdnLULqD7eTwwaQVPEzcTJ8oxPoOkkekhCkTBkKQKQjzotH-jxrF4KnBuJN5Q81IfUU-kRtgXwnOl0OkV83DRGb_W9xsdMUSXNEsvervOg8SLwrykhfmc0oTegNFAU1kfPa3-t7iq0yfNDCf0vj55_gQCJ_ZxE9y0riT_8');"></div>
+            <div class="absolute inset-0 vignette pointer-events-none z-0"></div>
+            <div class="relative flex flex-col items-center justify-center h-full px-safe-margin text-center z-10">
+                <!-- Creepy decorative element: witch hat + skull -->
+                <div class="mb-5 opacity-60 ash-dissolve">
+                    <svg width="64" height="64" viewBox="0 0 80 80" fill="none">
+                        <!-- Witch hat -->
+                        <path d="M25 50 L40 10 L55 50" stroke="#ffb3b5" stroke-width="1.5" opacity="0.7" fill="rgba(143,24,45,0.15)"/>
+                        <path d="M20 50 Q40 45 60 50" stroke="#ffb3b5" stroke-width="1.5" opacity="0.6"/>
+                        <!-- Skull underneath -->
+                        <ellipse cx="40" cy="62" rx="12" ry="10" stroke="#ffb3b5" stroke-width="1.2" opacity="0.5"/>
+                        <circle cx="36" cy="60" r="2.5" fill="#ffb3b5" opacity="0.5"/>
+                        <circle cx="44" cy="60" r="2.5" fill="#ffb3b5" opacity="0.5"/>
+                        <path d="M37 67 L40 69 L43 67" stroke="#ffb3b5" stroke-width="0.8" opacity="0.4"/>
+                        <!-- Stars -->
+                        <text x="15" y="35" fill="#ffb3b5" font-size="8" opacity="0.3">✦</text>
+                        <text x="62" y="30" fill="#ffb3b5" font-size="6" opacity="0.25">⸸</text>
+                    </svg>
+                </div>
+                <p class="font-body text-[10px] text-secondary/40 tracking-[0.25em] uppercase mb-5">⸸ 低语者开口了 ⸸</p>
+                <blockquote id="whisper-text" class="font-display text-headline-md leading-relaxed text-on-surface/90 mb-5 soul-flame-red"></blockquote>
+                <p id="whisper-insight" class="font-body text-[11px] text-on-surface-variant/30 max-w-[240px] leading-relaxed mb-10 italic"></p>
+                <button id="btn-retry" class="gothic-btn secondary">
+                    <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.15em]">举起你的手</span>
+                    <span class="gothic-btn-corner tl"></span>
+                    <span class="gothic-btn-corner tr"></span>
+                    <span class="gothic-btn-corner bl"></span>
+                    <span class="gothic-btn-corner br"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE: Result ==================== -->
+        <div id="page-result" class="page">
+            <div class="absolute inset-0 vignette pointer-events-none z-0"></div>
+            <div class="relative flex flex-col items-center justify-center h-full px-safe-margin text-center z-10">
+                <!-- Decorative: dead tree + moon -->
+                <div class="mb-6 opacity-50">
+                    <svg width="56" height="56" viewBox="0 0 70 70" fill="none">
+                        <circle cx="55" cy="15" r="8" stroke="#8ee5f0" stroke-width="1" opacity="0.4"/>
+                        <path d="M57 11 Q60 15 57 19" fill="#0a1513"/>
+                        <path d="M20 65 L20 30 M20 40 L12 32 M20 35 L28 28 M20 45 L14 40 M20 50 L26 44" stroke="#3e494a" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M35 65 L35 40 M35 48 L30 43 M35 45 L40 40" stroke="#3e494a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+                    </svg>
+                </div>
+                <p class="font-body text-label-caps text-on-surface-variant/30 tracking-[0.25em] uppercase mb-6">⸸ 仪式结束 ⸸</p>
+
+                <div class="grid grid-cols-3 gap-4 mb-6 w-full max-w-[300px]">
+                    <div class="result-stat-card">
+                        <p class="font-display text-headline-lg text-primary soul-flame" id="result-waves">1</p>
+                        <p class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider mt-1">波次</p>
+                    </div>
+                    <div class="result-stat-card">
+                        <p class="font-display text-headline-lg text-primary soul-flame" id="result-score">0</p>
+                        <p class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider mt-1">得分</p>
+                    </div>
+                    <div class="result-stat-card">
+                        <p class="font-display text-headline-lg text-secondary" id="result-combo">x0</p>
+                        <p class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider mt-1">连招</p>
+                    </div>
+                </div>
+
+                <div class="mb-4 px-4 py-3 border border-secondary/15 bg-error-container/5 rounded">
+                    <p class="font-body text-[10px] text-on-surface-variant/30 uppercase tracking-wider">被诅咒最深之术</p>
+                    <p class="font-body text-body-sm text-secondary/80 mt-1" id="result-weakest">'封印术'</p>
+                </div>
+
+                <div id="result-breakdown" class="text-left w-full max-w-[280px] mb-5"></div>
+
+                <blockquote id="result-quote" class="font-display text-body-sm text-on-surface-variant/40 italic max-w-[260px] leading-relaxed mb-8"></blockquote>
+
+                <div class="flex gap-4">
+                    <button id="btn-replay" class="gothic-btn primary">
+                        <span class="gothic-btn-glow"></span>
+                        <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.12em]">再入深渊</span>
+                        <span class="gothic-btn-corner tl"></span>
+                        <span class="gothic-btn-corner tr"></span>
+                        <span class="gothic-btn-corner bl"></span>
+                        <span class="gothic-btn-corner br"></span>
+                    </button>
+                    <button id="btn-leave" class="gothic-btn dim">
+                        <span class="relative z-10 font-body text-label-caps uppercase tracking-[0.12em]">逃离</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+    <!-- Fallback: ensure critical buttons work even if module init fails -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            if (!window.__appReady) {
+                console.warn('[Fallback] Binding critical buttons');
+                function navTo(id) {
+                    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+                    var t = document.getElementById(id);
+                    if (t) { t.classList.add('active'); console.log('[Fallback] →', id); }
+                }
+                var b1 = document.getElementById('btn-enter-forest');
+                var b2 = document.getElementById('btn-allow-camera');
+                var b3 = document.getElementById('btn-retry');
+                var b4 = document.getElementById('btn-start-level');
+                if (b1) b1.addEventListener('click', function(){navTo('page-camera');});
+                if (b2) b2.addEventListener('click', function(){alert('请先允许摄像头访问');});
+                if (b3) b3.addEventListener('click', function(){navTo('page-level-select');});
+                if (b4) b4.addEventListener('click', function(){navTo('page-countdown');});
+            }
+        }, 500);
+    });
+    </script>
+</body>
+</html>
